@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeForce RTX 50 系列显卡 | NVIDIA</title>
+    <style>
+        /* --- 基础样式 --- */
+        :root {
+            --nvidia-green: #76b900;
+            --dark-bg: #000000;
+            --gray-bg: #1a1a1a;
+            --darker-gray-bg: #0a0a0a;
+            --text-white: #ffffff;
+            --text-gray: #cccccc;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "NVIDIA Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-white);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; padding: 0; }
+
+        /* --- 导航栏 --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background-color: #111;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #333;
+        }
+        .nav-logo { font-weight: bold; font-size: 1.2rem; display: flex; align-items: center; gap: 10px;}
+        .nav-logo span { color: var(--nvidia-green); font-size: 1.5rem; }
+        .nav-links a { margin-left: 20px; font-size: 0.9rem; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--nvidia-green); }
+
+        /* --- 通用容器 --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .section { padding: 100px 0; }
+        .section-title { font-size: 2.5rem; margin-bottom: 40px; text-align: center;}
+        .section-title span { color: var(--nvidia-green); }
+        .section-subtitle { text-align: center; color: var(--text-gray); max-width: 800px; margin: 0 auto 50px auto; font-size: 1.1rem; }
+
+        /* --- Hero 首屏 --- */
+        .hero {
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: radial-gradient(circle at center, #1a2c10 0%, #000000 70%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero h1 {
+            font-size: 5rem;
+            line-height: 1;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            background: linear-gradient(180deg, #fff 0%, #aaa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero h2 {
+            color: var(--nvidia-green);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+
+        .btn {
+            background-color: var(--nvidia-green);
+            color: #000;
+            padding: 15px 40px;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 2px;
+            transition: transform 0.2s, background-color 0.2s;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+            background-color: #8cd600;
+        }
+
+        /* --- [完全重构] 架构介绍 CSS --- */
+        .architecture {
+            background-color: var(--gray-bg);
+        }
+
+        .arch-content-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 80px;
+            margin-top: 60px;
+        }
+
+        .arch-image-col {
+            flex: 1;
+            max-width: 500px;
+        }
+        
+        .arch-chip-img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 0 40px rgba(118, 185, 0, 0.2); 
+            border: 1px solid #333;
+        }
+
+        .arch-text-col {
+            flex: 1;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+            text-align: left;
+        }
+
+        .arch-feature-item h3 {
+            font-size: 2rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #fff;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+
+        .arch-feature-item p {
+            color: var(--text-gray);
+            font-size: 1.3rem;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        /* --- 性能/效能对比板块 --- */
+        .performance {
+            background-color: var(--darker-gray-bg);
+            text-align: center;
+        }
+
+        .product-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 40px;
+            flex-wrap: wrap; 
+            padding: 0 10px;
+        }
+
+        .product-btn {
+            background-color: #222;
+            border: 1px solid #444;
+            color: var(--text-gray);
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            border-radius: 4px;
+        }
+
+        .product-btn:hover {
+            background-color: #333;
+            color: #fff;
+            border-color: #666;
+        }
+
+        .product-btn.active {
+            background-color: var(--nvidia-green);
+            color: #000;
+            border-color: var(--nvidia-green);
+            box-shadow: 0 0 10px rgba(118, 185, 0, 0.3);
+        }
+
+        .chart-display-area {
+            position: relative;
+            min-height: 400px;
+        }
+
+        .chart-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 30px;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+            border: 1px solid #333;
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .chart-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: contrast(1.05); 
+        }
+
+        .chart-title {
+            color: #fff;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .product-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        .product-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- 规格表样式 --- */
+        .specs { 
+            background-color: #000; 
+            padding-bottom: 100px;
+        }
+        
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin-top: 40px;
+            border-top: 2px solid #333;
+        }
+
+        .specs-table {
+            width: 100%;
+            min-width: 1000px; 
+            border-collapse: collapse;
+            font-family: "NVIDIA Sans", sans-serif;
+            font-size: 0.9rem;
+        }
+        
+        .specs-table th {
+            text-align: left;
+            padding: 20px 10px;
+            color: #fff;
+            font-weight: bold;
+            border-bottom: 1px solid #333;
+            text-transform: uppercase;
+        }
+
+        .specs-table td {
+            text-align: left;
+            padding: 20px 10px;
+            color: #ccc;
+            border-bottom: 1px solid #1a1a1a;
+            vertical-align: top;
+        }
+        
+        .specs-table td:first-child {
+            color: #fff;
+            font-weight: bold;
+            width: 15%;
+            position: sticky;
+            left: 0;
+            background-color: #000;
+            z-index: 10;
+            border-right: 1px solid #222;
+        }
+
+        .spec-label-deco {
+            display: inline-block;
+            border-bottom: 2px solid var(--nvidia-green);
+            padding-bottom: 3px;
+        }
+
+        .specs-table tr:hover td {
+            background-color: #0a0a0a;
+        }
+        
+        .highlight-data {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        /* --- 底部 --- */
+        footer {
+            padding: 40px;
+            background-color: #111;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #666;
+            border-top: 1px solid #222;
+        }
+
+        /* --- 响应式调整 --- */
+        @media (max-width: 900px) {
+            /* 架构板块在平板/手机端改为垂直堆叠 */
+            .arch-content-wrapper {
+                flex-direction: column;
+                text-align: center;
+                gap: 50px;
+            }
+            .arch-text-col {
+                text-align: center;
+                align-items: center;
+                gap: 30px;
+            }
+            .arch-feature-item h3 { font-size: 1.6rem; }
+            .arch-feature-item p { font-size: 1.1rem; }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .nav-links { display: none; }
+            .product-btn { flex-grow: 1; text-align: center; font-size: 0.8rem; padding: 8px 10px;}
+            .specs-table th { font-size: 0.8rem; }
+            .specs-table td { font-size: 0.8rem; padding: 15px 5px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-logo">
+            <span>👁</span> NVIDIA GEFORCE
+        </div>
+        <div class="nav-links">
+            <a href="#features">特性</a>
+            <a href="#performance">效能</a>
+            <a href="#specs">规格</a>
+            <a href="#">支持</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <h2>GeForce RTX 50 Series</h2>
+        <h1>至尊算力<br>定义未来</h1>
+        <p>搭载 NVIDIA Blackwell 架构，配备极速 GDDR7 显存与 AI 驱动的 DLSS 4 技术。</p>
+        <a href="#performance" class="btn">见证效能飞跃</a>
+    </header>
+
+    <section class="section architecture" id="features">
+        <div class="container">
+            <h2 class="section-title">NVIDIA <span>Blackwell</span> 架构</h2>
+            
+            <div class="arch-content-wrapper">
+                <div class="arch-image-col">
+                    <img src="image_8.png" alt="NVIDIA Blackwell Chip Architecture" class="arch-chip-img">
+                </div>
+
+                <div class="arch-text-col">
+                    <div class="arch-feature-item">
+                        <h3>第五代 Tensor 核心</h3>
+                        <p>使用 FP4 和 DLSS 4 最大化 AI 效能</p>
+                    </div>
+                    <div class="arch-feature-item">
+                        <h3>新型串流多處理器</h3>
+                        <p>優化神經著色器</p>
+                    </div>
+                    <div class="arch-feature-item">
+                        <h3>第四代光線追蹤核心</h3>
+                        <p>為巨型幾何體而建</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="section performance" id="performance">
+        <div class="container">
+            <h2 class="section-title">效能 <span>倍增</span></h2>
+            <p class="section-subtitle">借助 DLSS 4 和强大的 Blackwell 架构，在最苛刻的游戏和应用中实现巨大的帧率提升。</p>
+
+            <div class="product-selector">
+                <button class="product-btn active" onclick="selectProduct(event, 'rtx5090')">RTX 5090</button>
+                <button class="product-btn" onclick="selectProduct(event, 'rtx5080')">RTX 5080</button>
+                <button class="product-btn" onclick="selectProduct(event, 'rtx5070ti')">RTX 5070 Ti</button>
+                <button class="product-btn" onclick="selectProduct(event, 'rtx5070')">RTX 5070</button>
+                <button class="product-btn" onclick="selectProduct(event, 'rtx5060ti')">RTX 5060 Ti</button>
+                <button class="product-btn" onclick="selectProduct(event, 'rtx5060')">RTX 5060</button>
+                <button class="product-btn" onclick="selectProduct(event, 'rtx5050')">RTX 5050</button>
+            </div>
+
+            <div class="chart-display-area">
+                <div id="rtx5090" class="product-content active">
+                    <div class="chart-wrapper">
+                        <h3 class="chart-title">GeForce RTX 5090</h3>
+                        <img src="image_0.png" alt="RTX 5090 Performance" class="chart-img">
+                    </div>
+                </div>
+                <div id="rtx5080" class="product-content">
+                    <div class="chart-wrapper">
+                        <h3 class="chart-title">GeForce RTX 5080</h3>
+                        <img src="image_1.png" alt="RTX 5080 Performance" class="chart-img">
+                    </div>
+                </div>
+                <div id="rtx5070ti" class="product-content">
+                    <div class="chart-wrapper">
+                        <h3 class="chart-title">GeForce RTX 5070 Ti</h3>
+                        <img src="image_2.png" alt="RTX 5070 Ti Performance" class="chart-img">
+                    </div>
+                </div>
+                <div id="rtx5070" class="product-content">
+                    <div class="chart-wrapper">
+                        <h3 class="chart-title">GeForce RTX 5070</h3>
+                         <img src="image_3.png" alt="RTX 5070 Performance" class="chart-img">
+                    </div>
+                </div>
+                <div id="rtx5060ti" class="product-content">
+                    <div class="chart-wrapper">
+                        <h3 class="chart-title">GeForce RTX 5060 Ti</h3>
+                         <img src="image_4.png" alt="RTX 5060 Ti Performance" class="chart-img">
+                    </div>
+                </div>
+                <div id="rtx5060" class="product-content">
+                    <div class="chart-wrapper">
+                        <h3 class="chart-title">GeForce RTX 5060</h3>
+                         <img src="image_5.png" alt="RTX 5060 Performance" class="chart-img">
+                    </div>
+                </div>
+                <div id="rtx5050" class="product-content">
+                    <div class="chart-wrapper">
+                        <h3 class="chart-title">GeForce RTX 5050</h3>
+                         <img src="image_6.png" alt="RTX 5050 Performance" class="chart-img">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section specs" id="specs">
+        <div class="container">
+            <h2 class="section-title">技术规格 <span>概览</span></h2>
+            
+            <div class="table-responsive">
+                <table class="specs-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>RTX 5090</th>
+                            <th>RTX 5080</th>
+                            <th>RTX 5070 Ti</th>
+                            <th>RTX 5070</th>
+                            <th>RTX 5060 Ti</th>
+                            <th>RTX 5060</th>
+                            <th>RTX 5050</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>NVIDIA 架构</td>
+                            <td>Blackwell</td>
+                            <td>Blackwell</td>
+                            <td>Blackwell</td>
+                            <td>Blackwell</td>
+                            <td>Blackwell</td>
+                            <td>Blackwell</td>
+                            <td>Blackwell</td>
+                        </tr>
+                        <tr>
+                            <td><span class="spec-label-deco">DLSS</span></td>
+                            <td class="highlight-data">DLSS 4</td>
+                            <td class="highlight-data">DLSS 4</td>
+                            <td class="highlight-data">DLSS 4</td>
+                            <td class="highlight-data">DLSS 4</td>
+                            <td class="highlight-data">DLSS 4</td>
+                            <td class="highlight-data">DLSS 4</td>
+                            <td class="highlight-data">DLSS 4</td>
+                        </tr>
+                        <tr>
+                            <td>AI TOPS</td>
+                            <td>3352</td>
+                            <td>1801</td>
+                            <td>1406</td>
+                            <td>988</td>
+                            <td>759</td>
+                            <td>614</td>
+                            <td>421</td>
+                        </tr>
+                        <tr>
+                            <td>Tensor 核心</td>
+                            <td>第 5 代</td>
+                            <td>第 5 代</td>
+                            <td>第 5 代</td>
+                            <td>第 5 代</td>
+                            <td>第 5 代</td>
+                            <td>第 5 代</td>
+                            <td>第 5 代</td>
+                        </tr>
+                        <tr>
+                            <td>光线追踪核心</td>
+                            <td>第 4 代</td>
+                            <td>第 4 代</td>
+                            <td>第 4 代</td>
+                            <td>第 4 代</td>
+                            <td>第 4 代</td>
+                            <td>第 4 代</td>
+                            <td>第 4 代</td>
+                        </tr>
+                        <tr>
+                            <td><span class="spec-label-deco">NVIDIA 编码器</span><br>(NVENC)</td>
+                            <td>3x 第 9 代</td>
+                            <td>2x 第 9 代</td>
+                            <td>2x 第 9 代</td>
+                            <td>1x 第 9 代</td>
+                            <td>1x 第 9 代</td>
+                            <td>1x 第 9 代</td>
+                            <td>1x 第 9 代</td>
+                        </tr>
+                        <tr>
+                            <td>NVIDIA 解码器<br>(NVDEC)</td>
+                            <td>2x 第 6 代</td>
+                            <td>2x 第 6 代</td>
+                            <td>1x 第 6 代</td>
+                            <td>1x 第 6 代</td>
+                            <td>1x 第 6 代</td>
+                            <td>1x 第 6 代</td>
+                            <td>1x 第 6 代</td>
+                        </tr>
+                        <tr>
+                            <td>記憶體組態</td>
+                            <td>32 GB<br>GDDR7</td>
+                            <td>16 GB<br>GDDR7</td>
+                            <td>16 GB<br>GDDR7</td>
+                            <td>12 GB<br>GDDR7</td>
+                            <td>16GB / 8GB<br>GDDR7</td>
+                            <td>8 GB<br>GDDR7</td>
+                            <td>8 GB<br>GDDR6</td>
+                        </tr>
+                        <tr>
+                            <td>記憶體頻寬</td>
+                            <td>1792 GB/sec</td>
+                            <td>960 GB/sec</td>
+                            <td>896 GB/sec</td>
+                            <td>672 GB/sec</td>
+                            <td>448 GB/sec</td>
+                            <td>448 GB/sec</td>
+                            <td>320 GB/sec</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 NVIDIA Corporation. All rights reserved.</p>
+        <p>*本页面为 AI 生成的演示设计，所有数据来源于用户上传的演示图片。</p>
+    </footer>
+
+    <script>
+        function selectProduct(evt, productId) {
+            var contents = document.getElementsByClassName("product-content");
+            for (var i = 0; i < contents.length; i++) {
+                contents[i].classList.remove("active");
+            }
+            var buttons = document.getElementsByClassName("product-btn");
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove("active");
+            }
+            document.getElementById(productId).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+    </script>
+
+</body>
+</html>
