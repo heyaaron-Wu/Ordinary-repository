@@ -5,9 +5,10 @@ skills/fund-challenge/
 06-data/
 evidence/
 
-# 脚本（08-fund-daily-review/scripts/ 除外）
+# 脚本（特定 scripts 文件夹除外）
 scripts/
 !08-fund-daily-review/scripts/
+!07-version-updates/scripts/
 
 # 临时文件
 *.tmp
