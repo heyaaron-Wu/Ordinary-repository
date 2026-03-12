@@ -1,6 +1,6 @@
 #!/bin/bash
 # 模块文档更新检查脚本
-# 功能：检查各文件夹当日是否有更新，如有则更新对应 README.md
+# 功能：检查各文件夹当日是否有更新，如有则更新对应 README.md 和 CHANGELOG.md
 
 set -e
 
@@ -36,6 +36,9 @@ declare -A MODULES=(
     ["08-fund-daily-review"]="基金日终复盘"
 )
 
+# 存储每个模块的今日提交详情
+declare -A MODULE_COMMIT_DETAILS
+
 # 检查每个模块
 UPDATED_MODULES=()
 for module_path in "${!MODULES[@]}"; do
@@ -48,11 +51,36 @@ for module_path in "${!MODULES[@]}"; do
         echo "✅ 模块更新：$module_name ($module_path)"
         echo "   提交数：$MODULE_COMMITS"
         
+        # 获取提交详情
+        COMMIT_DETAILS=$(git -C "$WORKSPACE" log --since="$TODAY 00:00:00" --until="$TODAY 23:59:59" --oneline -- "$module_path" 2>/dev/null)
+        MODULE_COMMIT_DETAILS["$module_path"]="$COMMIT_DETAILS"
+        
         # 检查是否有 README.md
-        if [ -f "$WORKSPACE/$module_path/README.md" ]; then
+        README_PATH="$WORKSPACE/$module_path/README.md"
+        if [ -f "$README_PATH" ]; then
             echo "   📄 README.md: 已存在"
+            
+            # 检查 README.md 是否需要更新（包含今日日期）
+            if ! grep -q "$TODAY" "$README_PATH" 2>/dev/null; then
+                echo "   📝 README.md: 需要更新最后更新时间"
+                
+                # 更新 README.md 中的最后更新时间
+                if grep -q "最后更新：" "$README_PATH"; then
+                    sed -i "s/最后更新：.*/最后更新：$TODAY/" "$README_PATH"
+                elif grep -q "\*最后更新：" "$README_PATH"; then
+                    sed -i "s/\*最后更新：.*/\*最后更新：$TODAY\*/" "$README_PATH"
+                else
+                    # 在文件末尾添加更新时间
+                    echo "" >> "$README_PATH"
+                    echo "*最后更新：$TODAY*" >> "$README_PATH"
+                fi
+                
+                echo "   ✅ README.md 已更新"
+            else
+                echo "   ✅ README.md: 已包含今日更新"
+            fi
         else
-            echo "   ⚠️  README.md: 不存在"
+            echo "   ⚠️  README.md: 不存在（可创建模板）"
         fi
         
         UPDATED_MODULES+=("$module_path")
@@ -125,7 +153,16 @@ echo ""
 echo "📤 提交文档更新..."
 cd "$WORKSPACE"
 
+# 添加 CHANGELOG.md
 git add "$CHANGELOG_FILE" 2>/dev/null || true
+
+# 添加所有更新过的 README.md
+for module_path in "${UPDATED_MODULES[@]}"; do
+    README_PATH="$WORKSPACE/$module_path/README.md"
+    if [ -f "$README_PATH" ]; then
+        git add "$README_PATH" 2>/dev/null || true
+    fi
+done
 
 COMMIT_MSG="📝 自动更新模块文档 - $TODAY"
 git commit -m "$COMMIT_MSG" 2>/dev/null || echo "无变更或已提交"
