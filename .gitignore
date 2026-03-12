@@ -10,3 +10,6 @@ scripts/
 *.tmp
 *.log
 .cache/
+
+# OpenClaw 状态文件
+.openclaw/
