@@ -250,6 +250,7 @@ workspace/
 
 ```mermaid
 sequenceDiagram
+    autonumber
     participant Cron as 定时任务
     participant Orch as 编排器
     participant Pre as 预检管线
