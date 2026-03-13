@@ -50,9 +50,9 @@
 
 **每日 22:00 复盘后必须执行:**
 
-1. **生成复盘报告** → `fund_challenge/daily_reviews/YYYY-MM-DD.md`
-2. **更新状态文件** → `fund_challenge/state.json`
-3. **更新交易账本** → `fund_challenge/ledger.jsonl`
+1. **生成复盘报告** → `08-fund-daily-review/reviews/YYYY-MM-DD.md`
+2. **更新状态文件** → `08-fund-daily-review/state.json`
+3. **更新交易账本** → `08-fund-daily-review/ledger.jsonl`
 4. **Git 提交并推送**
 
 **推送命令:**
@@ -60,9 +60,9 @@
 cd /home/admin/.openclaw/workspace
 
 # 添加文件
-git add fund_challenge/daily_reviews/YYYY-MM-DD.md
-git add fund_challenge/state.json
-git add fund_challenge/ledger.jsonl
+git add 08-fund-daily-review/reviews/YYYY-MM-DD.md
+git add 08-fund-daily-review/state.json
+git add 08-fund-daily-review/ledger.jsonl
 
 # 提交
 git commit -m "📊 添加 MM 月 DD 日日终复盘
@@ -75,16 +75,9 @@ git pull --rebase origin OpenClaw-Fund-Trading
 git push origin OpenClaw-Fund-Trading
 ```
 
-**推送后通知飞书:**
-```bash
-curl -X POST "https://open.feishu.cn/open-apis/bot/v2/hook/f1286a3e-4e41-4809-a0bc-fd2bbbbc3f10" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "msg_type":"text",
-    "content":{
-      "text":"✅ MM 月 DD 日日终复盘已完成\n\n📊 当日盈亏：XXX 元\n📈 累计盈亏：XXX 元\n💾 数据已归档到 GitHub\n\n🔗 https://github.com/heyaaron-Wu/Semi-automatic-artificial-intelligence-system"
-    }
-  }'
+**GitHub 仓库路径:**
+```
+https://github.com/heyaaron-Wu/Semi-automatic-artificial-intelligence-system/tree/OpenClaw-Fund-Trading/08-fund-daily-review
 ```
 
 ## Privacy Guidelines
