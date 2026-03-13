@@ -257,37 +257,6 @@ git commit -m "修复 Python 3.6 兼容性 (fixes #1)"
 
 ---
 
-## 🚀 快速开始
-
-### 方式 A: 使用自动脚本（推荐）
-
-```bash
-cd ~/.openclaw/workspace
-./setup-github-integration.sh
-```
-
-### 方式 B: 手动配置
-
-```bash
-# 1. 配置 Git 用户
-git config --global user.name "Your Name"
-git config --global user.email "your@email.com"
-
-# 2. 创建 GitHub 仓库
-# 访问 https://github.com/new
-# 创建仓库：openclaw-workspace
-
-# 3. 添加远程仓库
-cd ~/.openclaw/workspace
-git remote add origin https://github.com/USER/openclaw-workspace.git
-
-# 4. 推送
-git branch -M main
-git push -u origin main
-```
-
----
-
 ## 💡 高级用法
 
 ### 1. 自动同步 Cron
@@ -372,3 +341,38 @@ chmod 600 ~/.git-credentials
 **下一步:** 运行 `./setup-github-integration.sh` 完成配置！🚀
 
 *最后更新：2026-03-12*
+
+## ⚠️ 隐私注意事项
+
+**推送到 GitHub 前必须检查:**
+
+1. **不要提交敏感配置:**
+   - API tokens
+   - 密码
+   - 私钥
+   - 个人身份信息
+
+2. **使用 .gitignore 排除敏感文件:**
+   ```bash
+   # .gitignore
+   *.env
+   *.key
+   *.pem
+   *token*
+   *secret*
+   04-private-configs/
+   ```
+
+3. **审查提交内容:**
+   ```bash
+   # 提交前查看改动
+   git status
+   git diff --cached
+   
+   # 确认无敏感信息后再推送
+   git push
+   ```
+
+4. **私有仓库优先:**
+   - 个人配置使用私有仓库
+   - 仅分享的技能使用公开仓库
