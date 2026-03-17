@@ -89,7 +89,7 @@ curl -X POST "https://open.feishu.cn/open-apis/bot/v2/hook/YOUR_FEISHU_WEBHOOK" 
           "tag": "div",
           "text": {
             "tag": "lark_md",
-            "content": "**【持仓概览】**\n• 持仓数量：3 只\n• 投入本金：999.52 元\n• 浮动盈亏：+25.58 元\n• 组合总值：1025.10 元"
+            "content": "**【持仓概览】**\n• 持仓数量：3 只\n• 投入本金：999.52 元\n• 浮动盈亏：-11.17 元\n• 组合总值：988.35 元"
           }
         }
       ]
@@ -175,7 +175,7 @@ https://open.feishu.cn/open-apis/bot/v2/hook/YOUR_WEBHOOK_TOKEN
         "tag": "div",
         "text": {
           "tag": "lark_md",
-          "content": "**【持仓概览】**\n• 持仓数量：3 只\n• 投入本金：999.52 元\n• 浮动盈亏：+25.58 元\n• 组合总值：1025.10 元"
+          "content": "**【持仓概览】**\n• 持仓数量：3 只\n• 投入本金：999.52 元\n• 浮动盈亏：-11.17 元\n• 组合总值：988.35 元"
         }
       },
       {
@@ -185,7 +185,7 @@ https://open.feishu.cn/open-apis/bot/v2/hook/YOUR_WEBHOOK_TOKEN
         "tag": "div",
         "text": {
           "tag": "lark_md",
-          "content": "**【持仓明细】**\n• 011612 华夏科创 50ETF 联接 A: -5.43 元\n• 013180 广发新能源车电池 ETF 联接 C: +7.12 元\n• 014320 德邦半导体产业混合 C: +23.89 元"
+          "content": "**【持仓明细】**\n• 013180 广发新能源车电池 ETF 联接 C: +7.54 元\n• 011612 华夏科创 50ETF 联接 A: -10.62 元\n• 014320 德邦半导体产业混合 C: -8.09 元"
         }
       },
       {
