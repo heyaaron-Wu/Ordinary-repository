@@ -17,3 +17,6 @@ scripts/
 
 # OpenClaw 状态文件
 .openclaw/
+
+# AI 记忆文件夹（私有）
+01-memory/
