@@ -78,7 +78,7 @@
 - `image_0.png` 到 `image_5.png` (AI 特性 48x48 图标)
 - `geforce-rtx-5090-perf-chart-outline.png` 等 7 张显卡性能对比图表
 - `geforce-rtx-50-series-games-bm-xl980-d@2x.jpg` (RTX 游戏生态海报)
-（其他版本的html因为资源文件名字问题大概率出错）
+（其他版本的.html因为资源文件名字问题大概率出错）
 
 ## 🛠️ 如何运行 (How to Run)
 
