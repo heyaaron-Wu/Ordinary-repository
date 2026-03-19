@@ -2,7 +2,7 @@
 > **本综述涵盖了目前开发阶段的两个核心模块：一个专注于次世代硬体视觉呈现的前端项目，以及一个基于证据驱动、具备高度风险控管的金融决策后端系统。**
 
 
-# NVIDIA GeForce RTX 50 Series 产品网页模拟（完成时间：‎2026‎年‎1‎月‎22‎日）
+# [NVIDIA GeForce RTX 50 Series 产品网页模拟（完成时间：‎2026‎年‎1‎月‎22‎日）](https://github.com/heyaaron-Wu/Semi-automatic-artificial-intelligence-system/tree/Gemini-compiles-web)
 
 ## 专案简介
 本专案是一个基于 NVIDIA 品牌美学设计的单页面模拟官网，旨在展示次世代 GeForce RTX 50 系列显示卡的视觉震撼感与强大性能。网页采用深色调极简风格，完美融合了品牌代表性的「NVIDIA Green」。
