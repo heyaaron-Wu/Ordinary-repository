@@ -1,0 +1,39 @@
+# Git 敏感信息忽略配置
+
+# === 运行时数据 (包含持仓/交易记录) ===
+state.json
+ledger.jsonl
+decision_history.jsonl
+
+# === 缓存文件 (包含实时数据) ===
+cache/
+fund_challenge/cache/
+
+# === 证据文件 (包含决策数据) ===
+evidence/
+fund_challenge/evidence/
+
+# === 日志文件 ===
+logs/
+*.log
+
+# === 临时文件 ===
+*.tmp
+*.bak
+*.pyc
+__pycache__/
+
+# === 备份文件 ===
+crontab_backup_*.txt
+
+# === 私人配置 ===
+*.private.json
+*.secret.json
+.env
+.env.local
+config.json
+
+# === 数据库文件 ===
+*.db
+*.sqlite
+*.sqlite3
