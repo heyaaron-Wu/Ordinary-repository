@@ -6,7 +6,7 @@
 
 - **消息推送通过飞书群机器人 Webhook** —— 所有定时任务、自动报告、系统通知等消息，统一通过飞书群机器人推送：
   ```
-  https://open.feishu.cn/open-apis/bot/v2/hook/f1286a3e-4e41-4809-a0bc-fd2bbbbc3f10
+  YOUR_FEISHU_WEBHOOK
   ```
   - **推送方式：使用 curl 命令直接在任务中推送**（不依赖 cron delivery 模式）
   - **支持格式：**
@@ -15,12 +15,12 @@
   - **示例：**
     ```bash
     # 1. 文本通知
-    curl -X POST "https://open.feishu.cn/open-apis/bot/v2/hook/f1286a3e-4e41-4809-a0bc-fd2bbbbc3f10" \
+    curl -X POST "YOUR_FEISHU_WEBHOOK" \
       -H "Content-Type: application/json" \
       -d '{"msg_type":"text","content":{"text":"🔔 通知内容"}}'
 
     # 2. 富文本卡片（推荐用于报告）
-    curl -X POST "https://open.feishu.cn/open-apis/bot/v2/hook/f1286a3e-4e41-4809-a0bc-fd2bbbbc3f10" \
+    curl -X POST "YOUR_FEISHU_WEBHOOK" \
       -H "Content-Type: application/json" \
       -d '{
         "msg_type": "interactive",

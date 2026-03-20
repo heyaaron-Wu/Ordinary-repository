@@ -24,7 +24,7 @@
 ### 当前使用的 Webhook
 
 ```
-https://open.feishu.cn/open-apis/bot/v2/hook/f1286a3e-4e41-4809-a0bc-fd2bbbbc3f10
+YOUR_FEISHU_WEBHOOK
 ```
 
 ### 如何获取你的 Webhook
@@ -150,7 +150,7 @@ cd /home/admin/.openclaw/workspace/02-skill-docs/skills/fund-challenge
 python3 fund_challenge/scripts/universe_refresh_script_only.py \
   --workspace /home/admin/.openclaw/workspace/02-skill-docs/skills/fund-challenge/fund_challenge \
   --feishu \
-  --webhook "https://open.feishu.cn/open-apis/bot/v2/hook/f1286a3e-4e41-4809-a0bc-fd2bbbbc3f10"
+  --webhook "YOUR_FEISHU_WEBHOOK"
 ```
 
 ### 使用 curl 测试

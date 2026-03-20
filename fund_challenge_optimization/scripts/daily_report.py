@@ -227,13 +227,41 @@ def main():
     
     workspace = Path(args.workspace).resolve()
     
-    # 数据文件路径
-    state_file = workspace.parent.parent / "04-private-configs/fund_challenge/state.json"
-    ledger_file = workspace.parent.parent / "04-private-configs/fund_challenge/ledger.jsonl"
+    # 数据文件路径 (支持多种可能的位置)
+    possible_state_paths = [
+        Path("/home/admin/.openclaw/workspace/04-private-configs/fund_challenge/state.json"),
+        workspace.parent.parent / "04-private-configs/fund_challenge/state.json",
+        workspace / "state.json",
+    ]
+    
+    possible_ledger_paths = [
+        Path("/home/admin/.openclaw/workspace/04-private-configs/fund_challenge/ledger.jsonl"),
+        workspace.parent.parent / "04-private-configs/fund_challenge/ledger.jsonl",
+        workspace / "ledger.jsonl",
+    ]
+    
+    # 查找存在的文件
+    state_file = None
+    ledger_file = None
+    
+    for path in possible_state_paths:
+        if path.exists():
+            state_file = path
+            break
+    
+    for path in possible_ledger_paths:
+        if path.exists():
+            ledger_file = path
+            break
+    
+    if not state_file:
+        print("警告：未找到 state.json 文件", file=sys.stderr)
+    if not ledger_file:
+        print("警告：未找到 ledger.jsonl 文件", file=sys.stderr)
     
     # 加载数据
-    state = load_state(state_file)
-    transactions = load_ledger(ledger_file)
+    state = load_state(state_file) if state_file else {}
+    transactions = load_ledger(ledger_file) if ledger_file else []
     
     # 计算当日收益
     positions = state.get('positions', [])

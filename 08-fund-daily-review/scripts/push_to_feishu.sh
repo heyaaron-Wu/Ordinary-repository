@@ -5,7 +5,7 @@ DATE=${1:-$(date +%Y-%m-%d)}
 REVIEW_FILE="../reviews/review-${DATE}.md"
 
 # 飞书 Webhook URL (从 MEMORY.md 获取)
-WEBHOOK="https://open.feishu.cn/open-apis/bot/v2/hook/f1286a3e-4e41-4809-a0bc-fd2bbbbc3f10"
+WEBHOOK="YOUR_FEISHU_WEBHOOK"
 
 echo "📊 开始推送 ${DATE} 日终复盘到飞书..."
 

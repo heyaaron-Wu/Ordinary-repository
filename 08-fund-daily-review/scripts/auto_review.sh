@@ -59,7 +59,7 @@ PORTFOLIO_VALUE=$(grep "组合总值" "$REVIEW_FILE" | head -1 | cut -d'|' -f2 |
 POSITIONS_COUNT=$(grep "持仓数量" "$REVIEW_FILE" | head -1 | cut -d'|' -f2 | tr -d ' ')
 
 # 飞书 Webhook
-WEBHOOK="https://open.feishu.cn/open-apis/bot/v2/hook/f1286a3e-4e41-4809-a0bc-fd2bbbbc3f10"
+WEBHOOK="YOUR_FEISHU_WEBHOOK"
 
 # 构建消息
 if [[ "$TOTAL_PNL" == *"+"* ]]; then

@@ -132,7 +132,7 @@ git push origin OpenClaw-Fund-Trading
 **推送成功后通知飞书群（仅推送复盘报告，不通知 GitHub）:**
 
 ```bash
-curl -X POST "https://open.feishu.cn/open-apis/bot/v2/hook/f1286a3e-4e41-4809-a0bc-fd2bbbbc3f10" \
+curl -X POST "YOUR_FEISHU_WEBHOOK" \
   -H "Content-Type: application/json" \
   -d '{
     "msg_type": "interactive",

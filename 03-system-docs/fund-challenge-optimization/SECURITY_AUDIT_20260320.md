@@ -19,7 +19,7 @@
 
 **敏感内容:**
 ```
-https://open.feishu.cn/open-apis/bot/v2/hook/f1286a3e-4e41-4809-a0bc-fd2bbbbc3f10
+YOUR_FEISHU_WEBHOOK
 ```
 
 **风险等级:** 🔴 高
@@ -34,7 +34,7 @@ https://open.feishu.cn/open-apis/bot/v2/hook/f1286a3e-4e41-4809-a0bc-fd2bbbbc3f1
 
 **敏感内容:**
 ```
-https://oapi.dingtalk.com/robot/send?access_token=6ab3e0f7233d9656c72b0f80a2e8d20a5a917adc82700719f7259b5325b22430
+YOUR_DINGTALK_WEBHOOK
 ```
 
 **风险等级:** 🔴 高
@@ -75,7 +75,7 @@ https://oapi.dingtalk.com/robot/send?access_token=6ab3e0f7233d9656c72b0f80a2e8d2
 
 **之前:**
 ```markdown
-https://open.feishu.cn/open-apis/bot/v2/hook/f1286a3e-4e41-4809-a0bc-fd2bbbbc3f10
+YOUR_FEISHU_WEBHOOK
 ```
 
 **之后:**

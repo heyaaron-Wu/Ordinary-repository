@@ -225,7 +225,7 @@ scripts/
 
 ```bash
 # 飞书 webhook
-https://open.feishu.cn/open-apis/bot/v2/hook/f1286a3e-4e41-4809-a0bc-fd2bbbbc3f10
+YOUR_FEISHU_WEBHOOK
 →
 https://open.feishu.cn/open-apis/bot/v2/hook/YOUR_FEISHU_WEBHOOK
 
