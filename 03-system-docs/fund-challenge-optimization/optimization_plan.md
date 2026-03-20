@@ -407,7 +407,7 @@ def should_refresh(current_state: dict) -> bool:
 ```python
 def send_dingtalk_alert(title: str, content: str):
     """发送钉钉告警"""
-    webhook = "https://oapi.dingtalk.com/robot/send?access_token=6ab3e0f7233d9656c72b0f80a2e8d20a5a917adc82700719f7259b5325b22430"
+    webhook = "YOUR_DINGTALK_WEBHOOK"  # 请替换为实际的钉钉机器人 webhook
     
     payload = {
         "msgtype": "markdown",

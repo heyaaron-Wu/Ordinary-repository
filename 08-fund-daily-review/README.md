@@ -75,7 +75,7 @@ python3 scripts/daily_review_generator.py \
   --output reviews/review-2026-03-12.md
 
 # 推送到飞书群
-curl -X POST "https://open.feishu.cn/open-apis/bot/v2/hook/YOUR_FEISHU_WEBHOOK" \
+curl -X POST "YOUR_FEISHU_WEBHOOK" \
   -H "Content-Type: application/json" \
   -d '{
     "msg_type": "interactive",
@@ -131,7 +131,7 @@ curl -X POST "https://open.feishu.cn/open-apis/bot/v2/hook/YOUR_FEISHU_WEBHOOK" 
 5. 复制 Webhook 地址
 
 # Webhook 地址格式
-https://open.feishu.cn/open-apis/bot/v2/hook/YOUR_WEBHOOK_TOKEN
+YOUR_FEISHU_WEBHOOK (请替换为实际的飞书机器人 webhook URL)
 ```
 
 ### 定时任务配置

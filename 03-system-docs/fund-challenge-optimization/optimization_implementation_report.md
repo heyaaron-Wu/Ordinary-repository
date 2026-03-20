@@ -38,7 +38,7 @@
 **✅ 已统一迁移到飞书 (Feishu)**
 
 - 原钉钉 webhook 已全部替换为飞书 webhook
-- 飞书 webhook: `https://open.feishu.cn/open-apis/bot/v2/hook/f1286a3e-4e41-4809-a0bc-fd2bbbbc3f10`
+- 飞书 webhook: `YOUR_FEISHU_WEBHOOK` (请在飞书机器人配置中获取)
 
 ---
 
@@ -211,7 +211,7 @@ bash setup_cron.sh
 
 ### Webhook 配置
 ```
-https://open.feishu.cn/open-apis/bot/v2/hook/f1286a3e-4e41-4809-a0bc-fd2bbbbc3f10
+YOUR_FEISHU_WEBHOOK (请替换为实际的飞书机器人 webhook)
 ```
 
 ### 推送场景

@@ -47,7 +47,7 @@ bash 08-fund-daily-review/scripts/auto_review.sh 2026-03-12
 vim 08-fund-daily-review/scripts/push_to_feishu.sh
 
 # 找到这一行并替换为你的 Webhook
-WEBHOOK="https://open.feishu.cn/open-apis/bot/v2/hook/YOUR_WEBHOOK_TOKEN"
+WEBHOOK="YOUR_FEISHU_WEBHOOK"  # 请替换为实际的飞书 webhook
 ```
 
 ### 步骤 3: 测试推送
@@ -219,7 +219,7 @@ crontab -e
 
 **测试:**
 ```bash
-curl -X POST "https://open.feishu.cn/open-apis/bot/v2/hook/YOUR_WEBHOOK" \
+curl -X POST "YOUR_FEISHU_WEBHOOK" \
   -H "Content-Type: application/json" \
   -d '{"msg_type":"text","content":{"text":"测试消息"}}'
 ```
