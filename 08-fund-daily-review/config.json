@@ -1,0 +1,46 @@
+{
+  "name": "基金挑战系统配置",
+  "version": "2.0",
+  "updated": "2026-03-22",
+  
+  "paths": {
+    "state_file": "08-fund-daily-review/state.json",
+    "ledger_file": "08-fund-daily-review/ledger.jsonl",
+    "reviews_dir": "08-fund-daily-review/reviews/",
+    "scripts_dir": "skills/fund-challenge/fund_challenge/scripts/",
+    "base_path": "/home/admin/.openclaw/workspace/Semi-automatic-artificial-intelligence-system"
+  },
+  
+  "github": {
+    "repo": "heyaaron-Wu/Semi-automatic-artificial-intelligence-system",
+    "branch": "OpenClaw-Fund-Trading",
+    "auto_push": true,
+    "push_paths": [
+      "08-fund-daily-review/state.json",
+      "08-fund-daily-review/reviews/*.md",
+      "08-fund-daily-review/ledger.jsonl"
+    ]
+  },
+  
+  "feishu": {
+    "webhook": "https://open.feishu.cn/open-apis/bot/v2/hook/f1286a3e-4e41-4809-a0bc-fd2bbbbc3f10",
+    "notify_on_error": true,
+    "notify_on_success": false
+  },
+  
+  "schedule": {
+    "daily_check": "0 9 * * 1-5",
+    "universe_refresh": "35 13 * * 1-5",
+    "decision": "0 14 * * 1-5",
+    "exec_gate": "48 14 * * 1-5",
+    "daily_review": "0 22 * * 1-5",
+    "weekly_report": "0 23 * * 5",
+    "health_check": "0 8 * * *"
+  },
+  
+  "thresholds": {
+    "data_freshness_hours": 48,
+    "disk_usage_warning": 90,
+    "pnl_alert_threshold": -50
+  }
+}
