@@ -75,8 +75,6 @@
 
 #### 🛠️ 脚本更新
 - auto_review_automation.py - 成功/失败都推送
-- 移除进度可视化相关脚本（progress_bar.py, progress_logger.py）
-- 原因：生产环境不需要进度条，节省资源
 
 #### 📊 系统状态
 - 定时任务：8 个（已优化）
