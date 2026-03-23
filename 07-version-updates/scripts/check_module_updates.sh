@@ -129,11 +129,33 @@ if [ -f "$CHANGELOG_FILE" ]; then
     if grep -q "## \[.*\] - $TODAY" "$CHANGELOG_FILE" 2>/dev/null; then
         echo "✅ CHANGELOG.md 已包含今日更新"
     else
-        # 获取当前最新版本号（从"## 📅 更新历史"之后查找，排除示例行）
-        CURRENT_VERSION=$(awk '/^## 📅 更新历史/,0' "$CHANGELOG_FILE" | grep -oP '^\### \[v\K[0-9.]+' | head -1)
+        # 获取当前最新有效版本号（跳过"无系统更新"的空版本）
+        CURRENT_VERSION=""
+        IN_UPDATE_HISTORY=false
+        
+        while IFS= read -r line; do
+            if [[ "$line" =~ ^##\ 📅\ 更新历史 ]]; then
+                IN_UPDATE_HISTORY=true
+                continue
+            fi
+            
+            if [ "$IN_UPDATE_HISTORY" = true ]; then
+                if [[ "$line" =~ ^###\ \[v([0-9]+\.[0-9]+\.[0-9]+)\] ]]; then
+                    VERSION="${BASH_REMATCH[1]}"
+                    read -r next_line || break
+                    if [[ ! "$next_line" =~ ^（无系统更新） ]]; then
+                        CURRENT_VERSION="$VERSION"
+                        break
+                    fi
+                fi
+            fi
+        done < "$CHANGELOG_FILE"
+        
         if [ -z "$CURRENT_VERSION" ]; then
             CURRENT_VERSION="1.0.0"
         fi
+        
+        echo "📊 当前最新版本：v$CURRENT_VERSION"
         
         # 解析版本号
         MAJOR=$(echo "$CURRENT_VERSION" | cut -d. -f1)
