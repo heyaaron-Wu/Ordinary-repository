@@ -129,8 +129,8 @@ if [ -f "$CHANGELOG_FILE" ]; then
     if grep -q "## \[.*\] - $TODAY" "$CHANGELOG_FILE" 2>/dev/null; then
         echo "✅ CHANGELOG.md 已包含今日更新"
     else
-        # 获取当前最新版本号
-        CURRENT_VERSION=$(grep -oP '^\### \[v\K[0-9.]+' "$CHANGELOG_FILE" | head -1)
+        # 获取当前最新版本号（从"## 📅 更新历史"之后查找，排除示例行）
+        CURRENT_VERSION=$(awk '/^## 📅 更新历史/,0' "$CHANGELOG_FILE" | grep -oP '^\### \[v\K[0-9.]+' | head -1)
         if [ -z "$CURRENT_VERSION" ]; then
             CURRENT_VERSION="1.0.0"
         fi
@@ -166,12 +166,17 @@ EOF
             echo "- **$module_name**: $MODULE_COMMITS 个提交" >> "$TEMP_CHANGELOG"
         done
         
-        # 插入到 CHANGELOG.md
+        # 插入到 CHANGELOG.md（在"## 📅 更新历史"之后）
+        HEADER_LINES=$(grep -n "^## 📅 更新历史" "$CHANGELOG_FILE" | cut -d: -f1)
+        if [ -z "$HEADER_LINES" ]; then
+            HEADER_LINES=20  # fallback
+        fi
+        
         {
-            head -n 20 "$CHANGELOG_FILE"
+            head -n $HEADER_LINES "$CHANGELOG_FILE"
             cat "$TEMP_CHANGELOG"
             echo ""
-            tail -n +21 "$CHANGELOG_FILE"
+            tail -n +$((HEADER_LINES + 1)) "$CHANGELOG_FILE"
         } > "${CHANGELOG_FILE}.tmp"
         
         mv "${CHANGELOG_FILE}.tmp" "$CHANGELOG_FILE"
