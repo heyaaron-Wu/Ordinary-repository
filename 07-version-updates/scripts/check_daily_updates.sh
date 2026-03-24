@@ -8,7 +8,7 @@ WORKSPACE="/home/admin/.openclaw/workspace"
 CHANGELOG_FILE="$WORKSPACE/07-version-updates/CHANGELOG.md"
 README_FILE="$WORKSPACE/README.md"
 TODAY=$(date +%Y-%m-%d)
-TODAY_CN=$(date +%Y 年%m 月%d 日)
+TODAY_CN=$(date +"%Y 年%m 月%d 日")
 
 echo "🔍 版本更新检查"
 echo "=============="
