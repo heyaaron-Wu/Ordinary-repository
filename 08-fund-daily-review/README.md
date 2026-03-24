@@ -9,7 +9,7 @@
 ### 执行时间
 
 ```
-每个交易日 22:00 自动执行
+每个交易日 22:30 自动执行（收盘后 3.5 小时，确保净值更新完成）
 ```
 
 ### 执行内容
@@ -61,9 +61,9 @@
 
 | 脚本 | 作用 | 调用时机 |
 |------|------|----------|
-| `daily_review_generator.py` | 生成日终复盘报告 | 22:00 |
-| `daily_pnl_updater.py` | 更新净值和盈亏 | 22:00 |
-| `feishu_push_sender.py` | 推送报告到飞书 | 22:05 |
+| `auto_review_automation.py` | 自动复盘全流程 | 22:30 |
+| `daily_pnl_updater_v2.py` | 更新净值和盈亏 | 22:30 |
+| `daily_review_generator.py` | 生成复盘报告 | 22:30 |
 
 ### 使用示例
 
@@ -138,18 +138,22 @@ YOUR_FEISHU_WEBHOOK (请替换为实际的飞书机器人 webhook URL)
 
 ```json
 {
-  "name": "fund-2200-review",
-  "description": "基金挑战 - 22:00 日终复盘",
-  "schedule": "0 22 * * 1-5",
-  "timeoutSeconds": 300,
-  "retryPolicy": {
-    "maxRetries": 2,
-    "retryDelaySeconds": 60
-  },
-  "payload": {
-    "kind": "agentTurn",
-    "message": "【基金挑战 - 22:00 日终复盘】\n\n1. 检查交易日\n2. 更新净值和收益\n3. 生成复盘报告\n4. 推送到飞书群"
-  }
+  "name": "fund-2230-review",
+  "description": "基金挑战 - 22:30 日终复盘（增强版）",
+  "schedule": "30 22 * * 1-5",
+  "timeoutSeconds": 600,
+  "retry": 2,
+  "delivery": "feishu",
+  "notify_on": ["always"],
+  "script": "python3 .../auto_review_automation.py --base ...",
+  "steps": [
+    "1. 交易日检查 (is_trading_day.py) - 1 分钟",
+    "2. 生成复盘报告 (含亏损原因分析 + 板块后市看法) - 5 分钟",
+    "3. 更新 state.json 和 ledger.jsonl - 2 分钟",
+    "4. Git 提交并推送到 GitHub 归档 ✅ 自动 - 2 分钟",
+    "5. 飞书通知 GitHub 推送完成 ✅ 自动 - 1 分钟"
+  ],
+  "expectedDuration": "11 分钟"
 }
 ```
 
@@ -264,7 +268,7 @@ sequenceDiagram
     participant Push as 飞书推送
     participant Archive as 存档
 
-    Cron->>Check: 22:00 触发
+    Cron->>Check: 22:30 触发
     Check->>Update: 确认交易日
     Update->>Calc: 更新净值
     Calc->>Gen: 计算盈亏
@@ -285,9 +289,9 @@ sequenceDiagram
 
 ### 推送时间
 
-- ✅ 交易日 22:00 推送
+- ✅ 交易日 22:30 执行（11 分钟完成，约 22:41 推送）
 - ✅ 非交易日自动跳过
-- ✅ 推送失败自动重试（2 次）
+- ✅ 失败自动重试（2 次，超时 10 分钟）
 
 ### 隐私保护
 
