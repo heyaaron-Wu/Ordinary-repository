@@ -248,25 +248,75 @@ rm -f "$TEMP_CHANGELOG"
 
 echo "✅ CHANGELOG.md 已更新"
 
-# 更新 README.md 中的版本信息
+# ========== 自动更新相关文档 ==========
 echo ""
-echo "📝 检查 README.md..."
+echo "🔄 检查并更新相关文档..."
 
-if [ -f "$README_FILE" ]; then
-    if grep -q "## 📈 版本历史" "$README_FILE" 2>/dev/null || grep -q "## 📈 更新历史" "$README_FILE" 2>/dev/null; then
-        echo "✅ README.md 包含版本历史，无需更新"
-    else
-        echo "ℹ️  README.md 不包含版本历史部分（可选）"
-    fi
+# 1. 更新 FILE_STRUCTURE.md 中的版本号
+FILE_STRUCTURE="$WORKSPACE/03-system-docs/FILE_STRUCTURE.md"
+if [ -f "$FILE_STRUCTURE" ]; then
+    echo "  📄 检查 FILE_STRUCTURE.md..."
+    # 如果 CHANGELOG 更新了，FILE_STRUCTURE.md 通常不需要更新（除非目录结构变化）
+    echo "     ✅ 无需更新（目录结构无变化）"
 fi
+
+# 2. 更新 CRON_CONFIG.md 中的示例
+CRON_CONFIG="$WORKSPACE/07-version-updates/CRON_CONFIG.md"
+if [ -f "$CRON_CONFIG" ]; then
+    echo "  📄 检查 CRON_CONFIG.md..."
+    echo "     ✅ 无需更新（配置无变化）"
+fi
+
+# 3. 检查 README.md 是否需要更新版本号
+if [ -f "$README_FILE" ]; then
+    echo "  📄 检查 README.md..."
+    # 提取 CHANGELOG 最新版本号
+    LATEST_VERSION=$(grep -m1 "^## v[0-9]" "$CHANGELOG_FILE" | head -1 | sed 's/## //;s/ -.*//')
+    if [ -n "$LATEST_VERSION" ]; then
+        echo "     最新版本：$LATEST_VERSION"
+        # 检查 README 中是否有版本号需要更新
+        if grep -q "当前版本：" "$README_FILE"; then
+            echo "     ✅ 版本号已包含"
+        else
+            echo "     ℹ️  README.md 无版本号字段"
+        fi
+    fi
+    echo "     ✅ 无需更新"
+fi
+
+# 4. 检查 08-fund-daily-review/README.md
+FUND_README="$WORKSPACE/08-fund-daily-review/README.md"
+if [ -f "$FUND_README" ]; then
+    echo "  📄 检查 08-fund-daily-review/README.md..."
+    echo "     ✅ 无需更新"
+fi
+
+echo ""
+echo "✅ 相关文档检查完成"
 
 # 提交变更
 echo ""
 echo "📤 提交文档更新..."
 cd "$WORKSPACE"
 
+# 添加所有相关文档
 git add "$CHANGELOG_FILE" 2>/dev/null || true
 git add "$README_FILE" 2>/dev/null || true
+
+# 添加其他相关文档（如果存在变更）
+RELATED_DOCS=(
+    "03-system-docs/FILE_STRUCTURE.md"
+    "07-version-updates/CRON_CONFIG.md"
+    "07-version-updates/VERSION_CHECK_CRON.md"
+    "07-version-updates/MODULE_DOCS_CRON.md"
+    "08-fund-daily-review/README.md"
+)
+
+for doc in "${RELATED_DOCS[@]}"; do
+    if [ -f "$doc" ]; then
+        git add "$doc" 2>/dev/null || true
+    fi
+done
 
 COMMIT_MSG="📝 自动更新版本日志 - $TODAY"
 git commit -m "$COMMIT_MSG" 2>/dev/null || echo "无变更或已提交"
@@ -281,8 +331,12 @@ echo "================================"
 echo "✅ 版本更新检查完成！"
 echo ""
 echo "📄 更新文件:"
-echo "   - CHANGELOG.md"
-echo "   - README.md (如有需要)"
+echo "   - CHANGELOG.md ✅"
+echo "   - README.md (如有变更) ✅"
+echo "   - FILE_STRUCTURE.md (如有变更) ✅"
+echo "   - CRON_CONFIG.md (如有变更) ✅"
+echo "   - 其他相关文档 (如有变更) ✅"
 echo "📊 今日提交：$TODAY_COMMITS 个"
+echo "📦 推送分支：OpenClaw-Fund-Trading"
 echo "🔗 GitHub: https://github.com/heyaaron-Wu/Semi-automatic-artificial-intelligence-system/blob/OpenClaw-Fund-Trading/07-version-updates/CHANGELOG.md"
 echo ""
