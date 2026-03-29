@@ -35,17 +35,19 @@ git log --since="$TODAY 00:00:00" --until="$TODAY 23:59:59" --oneline
 echo ""
 
 # 分类统计
-echo "📊 检查复盘报告..."
+echo "📊 检查复盘文档..."
 
-# 只检查复盘报告（日终复盘/周复盘）
-FUND_REVIEW=$(git log --since="$TODAY 00:00:00" --until="$TODAY 23:59:59" --grep="📊\|日终复盘\|周报复盘\|fund.*review\|weekly.*review" --oneline | wc -l)
+# 检查是否有复盘文档提交（日终复盘/周复盘）
+# 检测文件路径：08-fund-daily-review/reviews/ 或 08-fund-daily-review/weekly/
+FUND_REVIEW_FILES=$(git diff-tree --no-commit-id --name-only -r HEAD 2>/dev/null | grep -E "08-fund-daily-review/(reviews|weekly)/.*\.md$" | wc -l)
 
-if [ "$FUND_REVIEW" -eq 0 ]; then
-    echo "✅ 今日无复盘报告，跳过版本更新"
+if [ "$FUND_REVIEW_FILES" -eq 0 ]; then
+    echo "✅ 今日无复盘文档，跳过版本更新"
     exit 0
 fi
 
-echo "发现 $FUND_REVIEW 个复盘报告"
+echo "发现 $FUND_REVIEW_FILES 个复盘文档"
+git diff-tree --no-commit-id --name-only -r HEAD 2>/dev/null | grep -E "08-fund-daily-review/(reviews|weekly)/.*\.md$"
 echo ""
 
 # 检查 CHANGELOG.md 是否已包含今日更新
@@ -112,18 +114,19 @@ echo "📊 版本号递增：v$CURRENT_VERSION → v$VERSION_NUM"
 # 创建临时文件
 TEMP_CHANGELOG="/tmp/changelog_update_$$.md"
 
-# 创建新版本条目（只记录复盘报告）
+# 创建新版本条目（只记录复盘文档）
 cat > "$TEMP_CHANGELOG" << EOF
 
 ### [v$VERSION_NUM] - $TODAY
 
-#### 📊 复盘报告
+#### 📊 复盘文档
 EOF
 
-# 添加复盘报告提交
-git log --since="$TODAY 00:00:00" --until="$TODAY 23:59:59" --grep="📊\|日终复盘\|周报复盘\|fund.*review\|weekly.*review" --oneline | while read commit; do
-    MSG=$(echo "$commit" | cut -d' ' -f2-)
-    echo "- $MSG" >> "$TEMP_CHANGELOG"
+# 添加复盘文档文件名
+git diff-tree --no-commit-id --name-only -r HEAD 2>/dev/null | grep -E "08-fund-daily-review/(reviews|weekly)/.*\.md$" | while read filepath; do
+    # 提取文件名
+    FILENAME=$(basename "$filepath")
+    echo "- 📄 $FILENAME" >> "$TEMP_CHANGELOG"
 done
 
 # 插入到 CHANGELOG.md（在"## 📅 更新历史"之后）
