@@ -191,19 +191,65 @@ if [ "$SECURITY" -gt 0 ]; then
 fi
 
 # 插入到 CHANGELOG.md（在"## 📅 更新历史"之后）
-HEADER_LINES=$(grep -n "^## 📅 更新历史" "$CHANGELOG_FILE" | cut -d: -f1)
-if [ -z "$HEADER_LINES" ]; then
-    HEADER_LINES=20  # fallback
+echo "🔍 查找插入位置..."
+
+# 检查 CHANGELOG 文件是否存在
+if [ ! -f "$CHANGELOG_FILE" ]; then
+    echo "❌ CHANGELOG.md 不存在，创建新文件"
+    cp "$TEMP_CHANGELOG" "$CHANGELOG_FILE"
+else
+    # 备份原文件（防止意外丢失）
+    BACKUP_FILE="${CHANGELOG_FILE}.backup.$(date +%Y%m%d%H%M%S)"
+    cp "$CHANGELOG_FILE" "$BACKUP_FILE"
+    echo "💾 已备份原文件：$BACKUP_FILE"
+    
+    # 查找"## 📅 更新历史"标题行号
+    HEADER_LINE=$(grep -n "^## 📅 更新历史$" "$CHANGELOG_FILE" | head -1 | cut -d: -f1)
+    
+    if [ -z "$HEADER_LINE" ]; then
+        echo "❌ 未找到'## 📅 更新历史'标题，拒绝自动更新"
+        echo "   请手动检查 CHANGELOG.md 格式"
+        echo "   备份文件：$BACKUP_FILE"
+        rm -f "$TEMP_CHANGELOG"
+        exit 1
+    fi
+    
+    echo "✅ 找到插入位置：第 $HEADER_LINE 行"
+    
+    # 使用 awk 安全插入（避免 head/tail 切割问题）
+    awk -v insert_line="$HEADER_LINE" -v temp_file="$TEMP_CHANGELOG" '
+    BEGIN { inserted = 0 }
+    {
+        print $0
+        if (NR == insert_line && !inserted) {
+            while ((getline line < temp_file) > 0) {
+                print line
+            }
+            close(temp_file)
+            inserted = 1
+        }
+    }
+    ' "$CHANGELOG_FILE" > "${CHANGELOG_FILE}.tmp"
+    
+    # 验证临时文件大小（防止内容丢失）
+    ORIG_SIZE=$(wc -c < "$CHANGELOG_FILE")
+    NEW_SIZE=$(wc -c < "${CHANGELOG_FILE}.tmp")
+    
+    if [ "$NEW_SIZE" -lt "$ORIG_SIZE" ]; then
+        echo "❌ 警告：新文件比原文件小，可能丢失内容！"
+        echo "   原文件大小：$ORIG_SIZE bytes"
+        echo "   新文件大小：$NEW_SIZE bytes"
+        echo "   恢复备份..."
+        cp "$BACKUP_FILE" "$CHANGELOG_FILE"
+        rm -f "${CHANGELOG_FILE}.tmp" "$TEMP_CHANGELOG"
+        exit 1
+    fi
+    
+    # 验证通过，替换原文件
+    mv "${CHANGELOG_FILE}.tmp" "$CHANGELOG_FILE"
+    echo "✅ CHANGELOG.md 已更新"
 fi
 
-{
-    head -n $HEADER_LINES "$CHANGELOG_FILE"
-    cat "$TEMP_CHANGELOG"
-    echo ""
-    tail -n +$((HEADER_LINES + 1)) "$CHANGELOG_FILE"
-} > "${CHANGELOG_FILE}.tmp"
-
-mv "${CHANGELOG_FILE}.tmp" "$CHANGELOG_FILE"
 rm -f "$TEMP_CHANGELOG"
 
 echo "✅ CHANGELOG.md 已更新"
