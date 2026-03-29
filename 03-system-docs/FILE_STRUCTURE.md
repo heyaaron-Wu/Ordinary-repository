@@ -122,26 +122,51 @@ workspace/
 
 ---
 
-### 📁 07-version-updates/ (可公开)
+### 📁 07-version-updates/ (可公开) ⭐
 
-**内容:** 版本更新日志
+**内容:** 版本更新日志 + Cron 配置文档
 
 **文件列表:**
-- `CHANGELOG.md` - 版本更新历史
-- `UPGRADE_GUIDE.md` - 升级指南
+- `CHANGELOG.md` - 版本更新历史（每日 23:30 自动更新）
+- `CRON_CONFIG.md` - Cron 配置说明
+- `VERSION_CHECK_CRON.md` - 版本检查任务文档
+- `MODULE_DOCS_CRON.md` - 模块文档 Cron 说明
+- `scripts/`
+  - `check_daily_updates.sh` - 每日版本检查脚本
+
+**GitHub 路径:**
+```
+https://github.com/heyaaron-Wu/Semi-automatic-artificial-intelligence-system/blob/OpenClaw-Fund-Trading/07-version-updates/CHANGELOG.md
+```
 
 **隐私状态:** ✅ 安全，可公开
 
 ---
 
-### 📁 08-fund-daily-review/ (可公开)
+### 📁 08-fund-daily-review/ (可公开) ⭐
 
-**内容:** 基金日终复盘报告和脚本
+**内容:** 基金日终复盘 + 周报复盘
 
-**子文件夹:**
-- `reviews/` - 复盘报告存档
-- `templates/` - 报告模板
+**文件列表:**
+- `reviews/` - 每日复盘报告（YYYY-MM-DD.md）
+- `weekly/` - 周报复盘（YYYY-Www.md）
+- `state.json` - 挑战状态文件
+- `ledger.jsonl` - 交易账本
+- `config.json` - 配置
+- `README.md` - 模块说明
 - `scripts/` - 脚本工具
+- `templates/` - 报告模板
+
+**Cron 任务:**
+- `fund-2230-review` - 交易日 22:30 日终复盘
+- `fund-weekly-report` - 周五 23:00 周报复盘
+
+**GitHub 路径:**
+```
+https://github.com/heyaaron-Wu/Semi-automatic-artificial-intelligence-system/tree/OpenClaw-Fund-Trading/08-fund-daily-review
+```
+
+**隐私状态:** ✅ 安全，可公开（不含持仓金额等敏感信息）
 
 **文件列表:**
 - `README.md` - 日终复盘说明
